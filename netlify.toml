@@ -1,0 +1,29 @@
+# Bolt Group - static site
+# The whole deployable site lives in ./site (drag that folder into Netlify, or
+# connect this repo and Netlify will publish it automatically - no build step).
+
+[build]
+  publish = "site"
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# fingerprinted/versioned assets never change under the same name
+[[headers]]
+  for = "/wp-content/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/wp-includes/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
