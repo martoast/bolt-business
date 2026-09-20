@@ -228,13 +228,15 @@
 .bolt-arcs__core {
     fill: none;
     stroke-linecap: round;
-    /* pathLength="1" on the element means these are fractions of the route */
-    stroke-dasharray: 0.13 0.87;
+    /* pathLength="1" on the element means these are fractions of the route.
+       Period 0.5 puts TWO lights on every route instead of one - with a single
+       short dash per arc the motion was too sparse to read as movement. */
+    stroke-dasharray: 0.12 0.38;
     animation: bolt-arc-travel var(--d, 8s) linear var(--t, 0s) infinite;
 }
 
-.bolt-arcs__glow { stroke: rgba(255, 255, 255, 0.30); stroke-width: 7; }
-.bolt-arcs__core { stroke: rgba(255, 255, 255, 0.95); stroke-width: 2; }
+.bolt-arcs__glow { stroke: rgba(255, 255, 255, 0.34); stroke-width: 9; }
+.bolt-arcs__core { stroke: rgba(255, 255, 255, 1);    stroke-width: 2.6; }
 
 .bolt-arcs__glow.is-accent { stroke: rgba(227, 40, 62, 0.42); }
 .bolt-arcs__core.is-accent { stroke: rgba(255, 96, 116, 0.95); }
@@ -253,8 +255,8 @@
 }
 
 @keyframes bolt-arc-node {
-    0%        { r: 4;  opacity: 0.55; }
-    70%, 100% { r: 17; opacity: 0; }
+    0%        { r: 4;  opacity: 0.7; }
+    70%, 100% { r: 19; opacity: 0; }
 }
 
 
@@ -263,6 +265,9 @@
    The rails all stay, so the network still reads the same. */
 @media (max-width: 767px) {
     .bolt-arcs__pulses > path:nth-child(n+17) { display: none; }
+    /* the cover-crop pulls the globe under the headline on a phone, so ease
+       the whole layer back a touch to keep the type crisp */
+    .bolt-arcs { opacity: 0.72; }
 }
 
 @media (prefers-reduced-motion: reduce) {

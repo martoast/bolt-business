@@ -11,34 +11,35 @@ import math, json, sys
 W, H = 2560, 1040
 
 NODES = {
-    # picked off the hero art, nudged onto the nearest light (28px)
-    "SEA": (1310, 490), "LAX": (1277, 644), "TIJ": (1330, 706),
-    "CHI": (1978, 504), "NYC": (2118, 519), "ATL": (2018, 632),
-    "HOU": (1714, 672), "MIA": (2101, 742), "GDL": (1562, 837),
-    "MEX": (1687, 870), "CUB": (2152, 812), "PAN": (1977, 963),
-    "BOG": (2402, 862), "EUR": (2500, 120),
-    "PAC": (900, 800), "NOR": (1180, 395),
+    # mapped from the previous frame through the known crop, then
+    # nudged onto the nearest light (26px)
+    "SEA": (1312, 405), "LAX": (1194, 449), "TIJ": (1288, 694),
+    "CHI": (1765, 472), "NYC": (2026, 454), "ATL": (1882, 557),
+    "HOU": (1614, 622), "MIA": (1966, 630), "GDL": (1547, 851),
+    "MEX": (1602, 861), "CUB": (2148, 776), "PAN": (1761, 855),
+    "BOG": (2262, 948), "EUR": (2500, 110), "PAC": (760, 760),
+    "NOR": (1100, 300),
 }
 
 # (from, to, lift, seconds, delay, accent)
 ARCS = [
-    ("MEX", "NYC", 0.42,  7.5, 0.0,  False),
-    ("LAX", "NYC", 0.50, 10.5, 1.2,  False),
-    ("MEX", "LAX", 0.40,  6.0, 2.4,  True),
-    ("TIJ", "CHI", 0.46,  9.0, 0.6,  False),
-    ("HOU", "MIA", 0.38,  6.5, 3.1,  False),
-    ("MEX", "PAN", 0.34,  6.0, 1.8,  False),
-    ("CHI", "MIA", 0.40,  7.0, 4.2,  False),
-    ("NYC", "EUR", 0.30,  8.5, 0.9,  True),
-    ("SEA", "CHI", 0.42,  7.5, 5.0,  False),
-    ("MEX", "CUB", 0.40,  8.0, 2.9,  False),
-    ("PAN", "BOG", 0.38,  6.0, 4.6,  False),
-    ("GDL", "HOU", 0.38,  6.5, 5.6,  False),
-    ("SEA", "NYC", 0.54, 11.0, 3.6,  False),
-    ("ATL", "CUB", 0.34,  6.0, 6.3,  True),
-    ("LAX", "PAC", 0.30,  9.5, 2.0,  False),
-    ("SEA", "NOR", 0.26,  8.0, 6.8,  False),
-    ("MEX", "PAC", 0.34, 10.0, 4.9,  False),
+    ("MEX", "NYC", 0.42,  4.5, 0.0,  False),
+    ("LAX", "NYC", 0.50, 6.3, 1.2,  False),
+    ("MEX", "LAX", 0.40,  4.0, 2.4,  True),
+    ("TIJ", "CHI", 0.46,  5.4, 0.6,  False),
+    ("HOU", "MIA", 0.38,  4.0, 3.1,  False),
+    ("MEX", "PAN", 0.34,  4.0, 1.8,  False),
+    ("CHI", "MIA", 0.40,  4.2, 4.2,  False),
+    ("NYC", "EUR", 0.30,  5.1, 0.9,  True),
+    ("SEA", "CHI", 0.42,  4.5, 5.0,  False),
+    ("MEX", "CUB", 0.40,  4.8, 2.9,  False),
+    ("PAN", "BOG", 0.38,  4.0, 4.6,  False),
+    ("GDL", "HOU", 0.38,  4.0, 5.6,  False),
+    ("SEA", "NYC", 0.54, 6.6, 3.6,  False),
+    ("ATL", "CUB", 0.34,  4.0, 6.3,  True),
+    ("LAX", "PAC", 0.30,  5.7, 2.0,  False),
+    ("SEA", "NOR", 0.26,  4.8, 6.8,  False),
+    ("MEX", "PAC", 0.34, 6.0, 4.9,  False),
 ]
 
 def path_d(a, b, lift):
