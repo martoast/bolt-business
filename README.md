@@ -113,22 +113,6 @@ bright core. The glow and core carry `pathLength="1"`, so a
 animating `stroke-dashoffset` from 0 to 1 walks it end to end. Per-arc speed
 and stagger are the inline `--d` and `--t` custom properties.
 
-The globe was matched to the original shot by measurement, not by eye: a script
-reads the planet's bright rim per column in both images and a least-squares fit
-gives the crop that lands one curve on the other.
-
-It matches by **zooming in** on a render whose globe was too small, never by
-shrinking one that was too big. Shrinking leaves a gap that has to be padded,
-and padding the top of this frame cuts a hard edge straight through the
-atmosphere glow - a flat black band right where the navbar sits. Zooming in can
-only ever fill the frame.
-
-To change the network, edit the `NODES` and `ARCS` tables in the generator
-(kept out of the repo) or just hand-edit the paths in `index.html` — the
-coordinates are plain image pixels. Node dots were snapped to the brightest
-city-light cluster within 70px of each hand-picked point, which is why they sit
-on real lights rather than in the ocean.
-
 ## Languages
 
 Spanish and English used to be separate pages. They are now one page that
