@@ -93,6 +93,12 @@ swipe-down. Desktop is untouched. The panel element is moved into the sheet and
 moved back on close, never copied, so each brand's copy exists once in the
 document — which is also what keeps the translations in step.
 
+**Back arrow in the brand panels** (`assets/bolt.css`) — the arrow that returns
+you to the intro was absolutely positioned at `left:-20px` against the panel,
+but the panel's left edge is also where the description starts, so the circle
+sat on top of the first 20px of every paragraph. The panels now carry a 62px
+left gutter and the arrow lives in it, which holds at every width.
+
 **One page, two languages** (`assets/i18n.*.js`) — see below.
 
 ## Languages

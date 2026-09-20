@@ -188,3 +188,41 @@
 @media (prefers-reduced-motion: reduce) {
     .bolt-sheet__panel, .bolt-sheet__backdrop { transition: none; }
 }
+
+
+/* --------------------------------------------------------------------------
+   3. "Marcas que integran el grupo" - the back arrow overlapped the copy
+
+   The control is absolutely positioned at left:-20px against the panel, but
+   the panel's left edge is also where the text starts, so the circle sat on
+   top of the first 20px of every description. It now gets its own gutter, so
+   it cannot overlap at any width.
+
+   These selectors carry an extra class on purpose: the widget ships its CSS in
+   an inline <style> in the body, which comes after this file, so matching
+   specificity would lose.
+   -------------------------------------------------------------------------- */
+
+.ecosistema-global .tab-panel .view-flex.service-layout {
+    position: relative;
+    padding-left: 62px;
+}
+
+.ecosistema-global .back-btn {
+    left: 0;
+    width: 42px;
+    height: 42px;
+    border-color: #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+    transition: background .2s ease, transform .2s ease;
+}
+
+.ecosistema-global .back-btn:hover {
+    background: #f6f6f6;
+    transform: translateY(-50%) scale(1.06);
+}
+
+@media (max-width: 767px) {
+    /* inside the mobile sheet the arrow is hidden, so the gutter is dead space */
+    .ecosistema-global .tab-panel .view-flex.service-layout { padding-left: 0; }
+}
