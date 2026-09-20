@@ -1,7 +1,11 @@
 # The English pages are no longer separate documents - one page switches
 # language in the browser. Keep the old WordPress URLs working.
-/en/inicio/   /?lang=en            301
-/en/inicio    /?lang=en            301
-/en/history/  /historia/?lang=en   301
-/en/history   /historia/?lang=en   301
-/en/*         /?lang=en            301
+#
+# The "!" forces the redirect: the old en/*/index.html files are still there as
+# a fallback for hosts that ignore this file, and without "!" Netlify would
+# serve those files instead of redirecting.
+/en/inicio/   /?lang=en            301!
+/en/inicio    /?lang=en            301!
+/en/history/  /historia/?lang=en   301!
+/en/history   /historia/?lang=en   301!
+/en/*         /?lang=en            301!
