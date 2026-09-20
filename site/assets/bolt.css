@@ -219,8 +219,8 @@
 /* the always-visible route lines */
 .bolt-arcs__rails path {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.26);
-    stroke-width: 1.5;
+    stroke: rgba(255, 255, 255, 0.38);
+    stroke-width: 1.6;
 }
 
 /* the light itself: a soft wide pass with a bright core over it */

@@ -113,6 +113,14 @@ bright core. The glow and core carry `pathLength="1"`, so a
 animating `stroke-dashoffset` from 0 to 1 walks it end to end. Per-arc speed
 and stagger are the inline `--d` and `--t` custom properties.
 
+The globe was matched to the original shot by measurement, not by eye: a script
+reads the planet's bright rim per column in both images and a least-squares fit
+gives the scale that lands one on the other. The generated frame was ~20% too
+large, so it is scaled down anchored to the **bottom-right** corner - the planet
+stays welded to that corner and the only gap opens at the top-left, which is
+empty black space in both images, so it fills invisibly (measured seam: 4-9 lum
+out of 255).
+
 To change the network, edit the `NODES` and `ARCS` tables in the generator
 (kept out of the repo) or just hand-edit the paths in `index.html` — the
 coordinates are plain image pixels. Node dots were snapped to the brightest
