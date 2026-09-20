@@ -6,12 +6,33 @@ framework, no CMS — just files.
 
 ## Deploy
 
+**Push to `main` and it goes live.** The repo is connected to Netlify, which publishes
+`site/` with no build command — <https://bolt-business.netlify.app>.
+
+Branches other than `main` do not deploy. Pull requests get a preview URL.
+
+**Manual deploy**, if you ever need to bypass git:
+
+```bash
+netlify deploy --prod --dir site
+```
+
 **Drag & drop:** drag the `site/` folder onto <https://app.netlify.com/drop>.
 
-**Connected repo:** Netlify reads `netlify.toml` and publishes `site/` with no build
-command. Push to `main` and it redeploys.
+**Anywhere else:** copy the contents of `site/` to any static host — it is just files.
 
-**Anywhere else:** copy the contents of `site/` to any static host.
+### How the git connection is wired
+
+The Netlify project lives on the **Fullstack Bolt** team (Ricardo's account) while the
+repo is under the **martoast** GitHub account. Because those are two different accounts,
+this is connected with a read-only **deploy key** plus a repo **webhook** rather than the
+usual Netlify GitHub App:
+
+- GitHub deploy key `Netlify (bolt-business) deploy key` — lets Netlify clone the repo
+- GitHub webhook → `https://api.netlify.com/hooks/github` — tells Netlify a push happened
+
+If deploys ever stop firing, check those two first (Settings → Deploy keys, and
+Settings → Webhooks, on the GitHub repo). Deleting either one breaks automatic deploys.
 
 ## Layout
 
