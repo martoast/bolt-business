@@ -72,6 +72,54 @@ cd site && python3 -m http.server 8010
 Open it through a server, not `file://` — the pages use relative asset paths and
 Elementor's JS loads additional chunks at runtime.
 
+## Changes made on top of the replica
+
+These are deliberate departures from the old WordPress site. Everything else
+still matches it.
+
+**Logo marquee** (`assets/bolt.css`) — the two logo rows were an Elementor
+image carousel that stepped from logo to logo, with an inline script trying to
+smooth it out by reaching into Swiper. Both are gone. The rows are now a CSS
+marquee: the logos are in the track twice and one cycle shifts it by exactly
+one copy, so the loop is seamless and never settles. It pauses on hover and on
+keyboard focus. Logo size is unchanged (213.33px wide at 1440+, the same as
+before) and it still shows 9 / 3 / 2 logos at the old breakpoints.
+
+**Brand switcher on mobile** (`assets/bolt.js`, `assets/bolt.css`) — the brand
+panels sit above the logo grid, so on a phone the grid was below the fold and
+tapping a logo changed a panel that was off-screen above. Under 768px the panel
+now opens as a sheet over the page, with a close button, backdrop, Escape and
+swipe-down. Desktop is untouched. The panel element is moved into the sheet and
+moved back on close, never copied, so each brand's copy exists once in the
+document — which is also what keeps the translations in step.
+
+**One page, two languages** (`assets/i18n.*.js`) — see below.
+
+## Languages
+
+Spanish and English used to be separate pages. They are now one page that
+switches in the browser.
+
+- `assets/i18n.home.js` and `assets/i18n.historia.js` hold every Spanish string
+  on their page paired with its English, in document order, plus the `<title>`,
+  meta description and `lang` for each language.
+- The switcher in the header swaps them without reloading. The choice is
+  remembered (localStorage) and reflected in the URL as `?lang=en`.
+- **Spanish is the default**, as it was at these URLs before. To follow the
+  visitor's browser language instead, there is a one-line change marked in
+  `initLanguage()` in `assets/bolt.js`.
+- `/en/inicio/` and `/en/history/` 301 to `/?lang=en` and `/historia/?lang=en`.
+
+**To edit copy:** change the Spanish in the HTML *and* its English in the
+matching `i18n.*.js` entry. They are paired by the Spanish string, so if you
+change Spanish text without updating the pair, that one string simply stops
+translating — nothing else breaks.
+
+Where the English was shorter than the Spanish (the method steps, a few
+paragraphs on Historia that the English page condensed), the extra lines are
+blanked and their `<br>` — or the whole element, if it empties — is hidden,
+then restored when you switch back.
+
 ## Known gaps
 
 - **The blog is not included.** `/blog/` (and `/en/blog-en/`) still link to the live
@@ -80,6 +128,13 @@ Elementor's JS loads additional chunks at runtime.
 - **The contact form has no backend.** It was an Elementor Pro form, which posted to
   WordPress. The markup and styling are intact but submissions go nowhere until it is
   wired up (Netlify Forms is the cheapest option — add `netlify` to the `<form>` tag).
+- **The `Contacto` nav button is translated to `Contact`.** Their English page
+  left that one button in Spanish; a bilingual toggle that leaves the main call
+  to action untranslated reads as a bug, so it is translated here.
+- **Historia's English is shorter than its Spanish.** Their English page
+  condenses three paragraphs into one and drops the "one-stop shop" sentence.
+  That is carried over as-is rather than machine-translated; if you want the
+  full text in English, it needs writing.
 - WordPress-only plumbing was stripped: XML-RPC, the REST/oEmbed discovery tags, RSS
   feed links, and the emoji polyfill. None of it affects rendering.
 

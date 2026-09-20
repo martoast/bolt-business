@@ -40,7 +40,9 @@
     padding: 0;
     list-style: none;
     animation: bolt-marquee-scroll var(--bolt-marquee-duration) linear infinite;
-    will-change: transform;
+    /* no will-change here on purpose: the track is ~10,000px wide, and asking
+       for it to be promoted up front costs a lot of layer memory for no gain -
+       a transform animation gets composited anyway */
 }
 
 .bolt-marquee__item {
