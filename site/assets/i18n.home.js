@@ -589,13 +589,13 @@ window.BOLT_I18N = {
 ],
 "meta": {
 "es": {
-"title": "Bolt Group",
-"description": "",
+"title": "Bolt Group | Dirección estratégica para múltiples industrias",
+"description": "Pensamos como holding y ejecutamos a través de nuestras compañías: dirección, estándares y control para una ejecución coordinada, eficiente y consistente.",
 "lang": "es-MX"
 },
 "en": {
-"title": "Bolt Group",
-"description": "",
+"title": "Bolt Group | Strategic direction across multiple industries",
+"description": "We operate with a holding company mindset, providing strategic direction, setting standards, and ensuring rigorous control across our portfolio.",
 "lang": "en-US"
 }
 }

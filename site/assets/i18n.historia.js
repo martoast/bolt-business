@@ -305,13 +305,13 @@ window.BOLT_I18N = {
 ],
 "meta": {
 "es": {
-"title": "Historia – Bolt Group",
-"description": "",
+"title": "Historia | Bolt Group",
+"description": "Bolt Group nació de una idea clara, orientada a un futuro próspero para México: construir empresas que no solo participen en los mercados, sino que ayuden a transformarlos.",
 "lang": "es-MX"
 },
 "en": {
-"title": "History – Bolt Group",
-"description": "",
+"title": "History | Bolt Group",
+"description": "Bolt Group was founded on a clear principle: to build companies that do more than just participate in the market — they help transform it.",
 "lang": "en-US"
 }
 }

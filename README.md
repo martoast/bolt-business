@@ -120,6 +120,48 @@ paragraphs on Historia that the English page condensed), the extra lines are
 blanked and their `<br>` — or the whole element, if it empties — is hidden,
 then restored when you switch back.
 
+## Sharing and SEO
+
+The old WordPress site had **no** description, no `og:` tags and no share
+image — a link pasted into WhatsApp showed "Bolt Group" and nothing else. That
+is now built properly:
+
+- `assets/social/og-home.jpg` and `og-historia.jpg` (1200x630, made from the
+  site's own hero art and wordmark)
+- full Open Graph + Twitter card tags, a real meta description, canonical,
+  `hreflang`, `robots.txt` and `sitemap.xml`
+
+**The URLs in those tags are absolute, and must stay that way.** WhatsApp,
+Facebook, LinkedIn and Slack fetch the page from their own servers, so a
+relative `og:image` yields no preview at all.
+
+### Moving to bolt.business (or any other domain)
+
+Every absolute URL sits between the `<!-- bolt:social -->` markers in the two
+HTML pages, plus `robots.txt` and `sitemap.xml`. One pass updates them all:
+
+```bash
+cd site
+grep -rl 'bolt-business.netlify.app' . \
+  | xargs sed -i '' 's|https://bolt-business\.netlify\.app|https://bolt.business|g'
+```
+
+Then re-share the link — WhatsApp and Facebook cache previews aggressively.
+Facebook's Sharing Debugger (`developers.facebook.com/tools/debug/`) has a
+"Scrape Again" button that clears it; LinkedIn has Post Inspector. WhatsApp
+has no manual tool and clears on its own, usually within a day — adding
+`?x=1` to the URL forces a fresh preview in the meantime.
+
+### One limitation
+
+The preview is always the **Spanish** one, including for `?lang=en`. Link
+scrapers do not run JavaScript, so they only ever see what is in the HTML, and
+the language switch happens in the browser. Fixing it properly would mean
+serving two real documents again, which is what we just removed. For a business
+whose primary market is Mexico this is the right trade; if English previews
+become important, the cheapest fix is a Netlify Edge Function rewriting the
+`og:` tags when `?lang=en` is present.
+
 ## Known gaps
 
 - **The blog is not included.** `/blog/` (and `/en/blog-en/`) still link to the live
