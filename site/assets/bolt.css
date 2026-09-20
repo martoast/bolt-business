@@ -1,0 +1,188 @@
+/* ==========================================================================
+   Bolt Group - custom additions on top of the original Elementor output.
+   Everything in here is ours; nothing above it was hand-edited, so this file
+   is the first place to look when something behaves differently to the old
+   WordPress site.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. Logo marquee
+   Replaces the Elementor/Swiper image carousel that used to step from logo to
+   logo. This scrolls continuously and never settles, and pauses when the
+   pointer is over it (or when a child is focused by keyboard).
+
+   The track holds the logos twice. One animation cycle shifts it left by
+   exactly the width of the first copy, so the second copy lands where the
+   first began and the loop is invisible.
+
+   --bolt-marquee-items = logos visible at once (the old slides_to_show)
+   --bolt-marquee-count = number of real logos, i.e. half the track
+   -------------------------------------------------------------------------- */
+
+.bolt-marquee {
+    --bolt-marquee-items: 9;
+    --bolt-marquee-count: 25;
+    --bolt-marquee-duration: 56s;
+    width: 100%;
+    overflow: hidden;
+    /* fade the logos out at both edges instead of cutting them off */
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+
+.bolt-marquee__track {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;                       /* items overflow this and get clipped */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    animation: bolt-marquee-scroll var(--bolt-marquee-duration) linear infinite;
+    will-change: transform;
+}
+
+.bolt-marquee__item {
+    flex: 0 0 calc(100% / var(--bolt-marquee-items));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bolt-marquee__item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@keyframes bolt-marquee-scroll {
+    from { transform: translate3d(0, 0, 0); }
+    /* percentages resolve against the track's own width, which is one
+       viewport-wide container - so this is exactly --bolt-marquee-count items */
+    to   { transform: translate3d(calc(-100% * var(--bolt-marquee-count) / var(--bolt-marquee-items)), 0, 0); }
+}
+
+.bolt-marquee:hover  .bolt-marquee__track,
+.bolt-marquee:focus-within .bolt-marquee__track {
+    animation-play-state: paused;
+}
+
+/* keep the pixels-per-second roughly constant as the logos get bigger */
+@media (max-width: 1024px) {
+    .bolt-marquee { --bolt-marquee-items: 3; --bolt-marquee-duration: 80s; }
+}
+@media (max-width: 767px) {
+    .bolt-marquee { --bolt-marquee-items: 2; --bolt-marquee-duration: 50s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bolt-marquee__track { animation: none; }
+    .bolt-marquee { overflow-x: auto; }
+}
+
+
+/* --------------------------------------------------------------------------
+   2. "Marcas que integran el grupo" on small screens
+   The brand panels render above the logo grid. On a phone the grid sits well
+   below the fold, so tapping a logo swapped a panel the visitor could not see.
+   On mobile the panel now opens as a sheet over the page instead. Desktop is
+   untouched - it still swaps panels in place.
+   -------------------------------------------------------------------------- */
+
+.bolt-sheet { display: none; }
+
+@media (max-width: 767px) {
+
+    .bolt-sheet {
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+        display: block;
+        visibility: hidden;
+        pointer-events: none;
+    }
+    .bolt-sheet.is-open { visibility: visible; pointer-events: auto; }
+
+    .bolt-sheet__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(17, 17, 17, .5);
+        opacity: 0;
+        transition: opacity .28s ease;
+    }
+    .bolt-sheet.is-open .bolt-sheet__backdrop { opacity: 1; }
+
+    .bolt-sheet__panel {
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        display: flex;
+        flex-direction: column;
+        max-height: 92vh;
+        max-height: 92dvh;
+        background: #fff;
+        border-radius: 24px 24px 0 0;
+        box-shadow: 0 -12px 40px rgba(0, 0, 0, .22);
+        overflow: hidden;                      /* clip the body to the sheet */
+        transform: translateY(101%);
+        transition: transform .32s cubic-bezier(.22, .7, .3, 1);
+    }
+    .bolt-sheet.is-open .bolt-sheet__panel { transform: translateY(0); }
+
+    .bolt-sheet__handle {
+        flex: none;
+        width: 42px; height: 4px;
+        margin: 10px auto 2px;
+        border-radius: 99px;
+        background: #d8d8d8;
+    }
+
+    .bolt-sheet__close {
+        position: absolute;
+        top: 12px; right: 12px;
+        width: 34px; height: 34px;
+        display: flex; align-items: center; justify-content: center;
+        border: 0;
+        border-radius: 50%;
+        background: #f1f1f1;
+        color: #333;
+        font-size: 19px;
+        line-height: 1;
+        cursor: pointer;
+        z-index: 2;
+    }
+    .bolt-sheet__close:active { background: #e3e3e3; }
+
+    .bolt-sheet__body {
+        /* a flex item defaults to min-height:auto, which would let the body
+           grow past the sheet's max-height instead of scrolling inside it */
+        min-height: 0;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        padding: 6px 18px calc(24px + env(safe-area-inset-bottom));
+    }
+
+    /* the panel was built for the desktop stage; inside the sheet it is just
+       a normal block, and the desktop "back" arrow is replaced by the close
+       button and the backdrop */
+    .bolt-sheet .tab-panel { display: block; }
+    .bolt-sheet .back-btn  { display: none; }
+    .bolt-sheet .view-flex { gap: 18px; }
+    .bolt-sheet .view-video,
+    .bolt-sheet .view-image img { border-radius: 16px; }
+    .bolt-sheet .brand-header { justify-content: center; }
+
+    body.bolt-sheet-open { overflow: hidden; }
+
+    /* the grid is the control surface on mobile, so make the tiles read as
+       tappable and give feedback on press */
+    .ecosistema-global .nav-item { -webkit-tap-highlight-color: transparent; }
+    .ecosistema-global .nav-item:active .nav-box { transform: scale(.96); }
+    .ecosistema-global .nav-box { transition: transform .18s ease; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bolt-sheet__panel, .bolt-sheet__backdrop { transition: none; }
+}
