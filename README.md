@@ -95,6 +95,30 @@ document — which is also what keeps the translations in step.
 
 **One page, two languages** (`assets/i18n.*.js`) — see below.
 
+**Living hero** (`assets/hero/hero-globe.jpg`, the `.bolt-arcs` SVG in
+`index.html`, styles in `assets/bolt.css`) — the old hero was one flat JPG with
+the network arcs painted into it, so nothing about it could move. The photo is
+now a clean globe with no arcs, and the network is drawn over it as SVG with
+light travelling along each route.
+
+The trick that holds it together: the `<svg>` uses the photo's own pixel space
+(`viewBox="0 0 2560 1040"`) with `preserveAspectRatio="xMidYMid slice"`, which
+crops exactly the way `background-size: cover; background-position: center`
+does. So every arc stays pinned to its city at any viewport size, with no
+JavaScript and no resize handler.
+
+Each route is three strokes: a dim always-on rail, a wide soft glow and a
+bright core. The glow and core carry `pathLength="1"`, so a
+`stroke-dasharray` of `0.13 0.87` is a dash covering 13% of the route, and
+animating `stroke-dashoffset` from 0 to 1 walks it end to end. Per-arc speed
+and stagger are the inline `--d` and `--t` custom properties.
+
+To change the network, edit the `NODES` and `ARCS` tables in the generator
+(kept out of the repo) or just hand-edit the paths in `index.html` — the
+coordinates are plain image pixels. Node dots were snapped to the brightest
+city-light cluster within 70px of each hand-picked point, which is why they sit
+on real lights rather than in the ocean.
+
 ## Languages
 
 Spanish and English used to be separate pages. They are now one page that

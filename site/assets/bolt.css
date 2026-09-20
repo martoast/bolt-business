@@ -188,3 +188,104 @@
 @media (prefers-reduced-motion: reduce) {
     .bolt-sheet__panel, .bolt-sheet__backdrop { transition: none; }
 }
+
+
+/* --------------------------------------------------------------------------
+   3. Hero - living connection arcs
+
+   The old hero was a single flat JPG with the network arcs painted into it,
+   so nothing about it could move. The photo is now a clean globe with no
+   arcs (assets/hero/hero-globe.jpg) and the network is drawn on top as SVG,
+   with light travelling along each route.
+
+   The <svg> shares the photo's pixel space (viewBox 0 0 2560 1040) and uses
+   preserveAspectRatio="xMidYMid slice", which crops identically to
+   `background-size: cover; background-position: center center`. That is what
+   keeps every arc pinned to its city at any viewport size.
+   -------------------------------------------------------------------------- */
+
+.bolt-arcs {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* the hero's own content has to sit above the arc layer */
+.elementor-element-573e6e5 > .e-con-inner { position: relative; z-index: 1; }
+
+/* the always-visible route lines */
+.bolt-arcs__rails path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.26);
+    stroke-width: 1.5;
+}
+
+/* the light itself: a soft wide pass with a bright core over it */
+.bolt-arcs__glow,
+.bolt-arcs__core {
+    fill: none;
+    stroke-linecap: round;
+    /* pathLength="1" on the element means these are fractions of the route */
+    stroke-dasharray: 0.13 0.87;
+    animation: bolt-arc-travel var(--d, 8s) linear var(--t, 0s) infinite;
+}
+
+.bolt-arcs__glow { stroke: rgba(255, 255, 255, 0.30); stroke-width: 7; }
+.bolt-arcs__core { stroke: rgba(255, 255, 255, 0.95); stroke-width: 2; }
+
+.bolt-arcs__glow.is-accent { stroke: rgba(227, 40, 62, 0.42); }
+.bolt-arcs__core.is-accent { stroke: rgba(255, 96, 116, 0.95); }
+
+@keyframes bolt-arc-travel {
+    from { stroke-dashoffset: 0; }
+    to   { stroke-dashoffset: 1; }
+}
+
+.bolt-arcs__dot  { fill: rgba(255, 255, 255, 0.95); }
+.bolt-arcs__halo {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.5);
+    stroke-width: 1.2;
+    animation: bolt-arc-node 4s ease-out var(--t, 0s) infinite;
+}
+
+@keyframes bolt-arc-node {
+    0%        { r: 4;  opacity: 0.55; }
+    70%, 100% { r: 17; opacity: 0; }
+}
+
+
+/* On a phone most of the network is cropped out of frame anyway, and
+   stroke-dashoffset repaints rather than composites - so run half the pulses.
+   The rails all stay, so the network still reads the same. */
+@media (max-width: 767px) {
+    .bolt-arcs__pulses > path:nth-child(n+17) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bolt-arcs__glow,
+    .bolt-arcs__core,
+    .bolt-arcs__halo { animation: none; }
+    /* hold the light still at the far end rather than hiding the network */
+    .bolt-arcs__glow,
+    .bolt-arcs__core { stroke-dasharray: none; opacity: 0.5; }
+}
+
+
+/* swap the hero art for the clean globe - the painted arcs are gone from the
+   photo because they are the SVG layer now. Same selector Elementor uses, and
+   this file loads after it, so it wins on order. */
+/* Elementor ships this as
+   `.elementor-9 .elementor-element.elementor-element-573e6e5:not(...)`,
+   which is four classes. Matching that weight (and loading later) is what
+   makes the swap stick - a bare `.elementor-element-573e6e5` loses. */
+.elementor-element.elementor-element-573e6e5.e-con.e-parent:not(.elementor-motion-effects-element-type-background) {
+    background-image: url("hero/hero-globe.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.elementor-element-573e6e5 { position: relative; overflow: hidden; }
