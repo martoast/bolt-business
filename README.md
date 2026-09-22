@@ -99,6 +99,28 @@ but the panel's left edge is also where the description starts, so the circle
 sat on top of the first 20px of every paragraph. The panels now carry a 62px
 left gutter and the arrow lives in it, which holds at every width.
 
+**Contact form** (`assets/bolt.js`, the `<form>` in both pages) — it was an
+Elementor Pro form with no `action`, submitted to WordPress over AJAX. With
+WordPress gone the submit fell back to a native POST to the page, which
+reloaded it and dropped the lead silently — the worst way for a lead form to
+fail, because it looks like it worked.
+
+Both forms now post to Netlify under one form named `contacto`, with a hidden
+`pagina` field recording which page the lead came from, so they share one inbox
+without losing that. Elementor's opaque field ids are renamed to
+`nombre` / `apellido` / `telefono` / `email` so notifications and CSV exports
+are readable; ids, labels and classes are untouched, so the styling is unchanged.
+
+Submitting posts in the background, so the visitor stays on the page and gets
+an answer in whichever language is showing rather than Netlify's generic
+success page. There is an off-screen honeypot — reachable by a bot, never by a
+person, which is why it is not `display:none`.
+
+Note for the next person: form detection is **off by default** on new Netlify
+sites (`ignore_html_forms: true`). It is enabled here, but a form added to a
+different site will be silently ignored until that setting is flipped and the
+site redeployed — detection only runs during deploy post-processing.
+
 **One page, two languages** (`assets/i18n.*.js`) — see below.
 
 ## Languages
@@ -173,9 +195,11 @@ become important, the cheapest fix is a Netlify Edge Function rewriting the
 - **The blog is not included.** `/blog/` (and `/en/blog-en/`) still link to the live
   WordPress site. It is a dynamic, multi-post section; porting it is a separate job —
   decide whether it moves to a static generator, an external service, or gets dropped.
-- **The contact form has no backend.** It was an Elementor Pro form, which posted to
-  WordPress. The markup and styling are intact but submissions go nowhere until it is
-  wired up (Netlify Forms is the cheapest option — add `netlify` to the `<form>` tag).
+- **The contact form needs a notification recipient.** It now posts to Netlify
+  Forms and submissions are captured (verified end to end), but **no one is
+  emailed when a lead arrives** — they sit in the Netlify dashboard until
+  someone looks. Set it in Netlify → Site configuration → Notifications → *Form
+  submission notification*. Until then, leads are collected but unannounced.
 - **The `Contacto` nav button is translated to `Contact`.** Their English page
   left that one button in Spanish; a bilingual toggle that leaves the main call
   to action untranslated reads as a bug, so it is translated here.
