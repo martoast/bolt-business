@@ -121,6 +121,31 @@ sites (`ignore_html_forms: true`). It is enabled here, but a form added to a
 different site will be silently ignored until that setting is flipped and the
 site redeployed — detection only runs during deploy post-processing.
 
+**Hero globe** (`assets/hero-globe.js`, `assets/globe/`, `assets/vendor/`) —
+the home hero photo is now a live Three.js scene drawn over it: the Earth
+turning slowly on its axis with real NASA night lights, clouds drifting through
+the sunlit haze, the red rim breathing, light running along the arcs out of the
+Ohio hub, twinkling stars, and a slight tilt toward the pointer. On load the
+arcs draw themselves out of the hubs.
+
+It is built to *be* the photo, not an approximation of it. It is laid out in the
+photo's own 2560x1040 frame and scaled like `background-size: cover`, the globe
+orientation was solved from seven cities in the photo, and the atmosphere's
+light is a lookup table measured off the photo (`globe/sky.png`). The file
+header explains each of those. Rendered at the photo's size it sits within ~8/255
+of it per pixel on average; most of that gap is the arcs and stars, which are
+generated rather than traced.
+
+The photo stays as the hero's CSS background. It is what you see while the
+scene loads (the canvas fades in over it, lined up), and all you see without
+WebGL. The render loop stops when the hero scrolls out of view or the tab is
+hidden. With `prefers-reduced-motion` you get one still frame. Phones download
+lighter textures (~370 KB rather than ~1.3 MB).
+
+Textures: NASA Black Marble 2016, Blue Marble and cloud composites (public
+domain), cropped to the Americas. `vendor/three.module.min.js` is three.js
+r170 (MIT), self-hosted like the fonts.
+
 **One page, two languages** (`assets/i18n.*.js`) — see below.
 
 ## Languages

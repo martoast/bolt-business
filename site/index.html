@@ -83,6 +83,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <link rel="apple-touch-icon" href="wp-content/uploads/2026/02/cropped-02-Logo-Bolt-group-1-180x180.png" />
 <meta name="msapplication-TileImage" content="wp-content/uploads/2026/02/cropped-02-Logo-Bolt-group-1-270x270.png" />
 <link rel="stylesheet" href="assets/bolt.css">
+<link rel="modulepreload" href="assets/vendor/three.module.min.js">
 <!-- bolt:social -->
 <!-- Sharing + SEO. The old WordPress site had none of this: no description,
      no og:image, so a shared link showed only "Bolt Group" and no picture.
@@ -1154,5 +1155,10 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/bolt.business\/wp-admin\/
 
 <script src="assets/i18n.home.js"></script>
 <script src="assets/bolt.js"></script>
+<script type="module">
+import { mountHeroGlobe } from './assets/hero-globe.js';
+const hero = document.querySelector('.elementor-element-573e6e5');
+if (hero) mountHeroGlobe(hero).catch(() => {}); // on failure the photo stays
+</script>
 </body>
 </html>

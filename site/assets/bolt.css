@@ -251,3 +251,28 @@
 .bolt-form__status.is-fail { color: #c22a2a; }
 
 .bolt-form button[type="submit"][disabled] { opacity: .65; cursor: progress; }
+
+
+/* --------------------------------------------------------------------------
+   5. Hero globe
+   assets/hero-globe.js draws the hero photo as a live WebGL scene into a
+   canvas at the back of the hero. The photo stays as the container's
+   background: it shows while the scene loads (the canvas fades in over it,
+   lined up pixel for pixel) and is all you get without WebGL.
+   -------------------------------------------------------------------------- */
+
+.elementor-element-573e6e5 { position: relative; }
+
+.elementor-element-573e6e5 > .bolt-globe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+}
+.elementor-element-573e6e5.bolt-globe-ready > .bolt-globe { opacity: 1; }
+.elementor-element-573e6e5 > .e-con-inner { position: relative; z-index: 1; }
