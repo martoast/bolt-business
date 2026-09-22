@@ -126,7 +126,8 @@ the home hero photo is now a live Three.js scene drawn over it: the Earth
 turning slowly on its axis with real NASA night lights, clouds drifting through
 the sunlit haze, the red rim breathing, light running along the arcs out of the
 Ohio hub, twinkling stars, and a slight tilt toward the pointer. On load the
-arcs draw themselves out of the hubs.
+arcs draw themselves out of the hubs. Under 768px the arcs are left out: on a phone
+the hero text stacks on top of the globe and the lines ran through it.
 
 It is built to *be* the photo, not an approximation of it. It is laid out in the
 photo's own 2560x1040 frame and scaled like `background-size: cover`, the globe

@@ -521,6 +521,11 @@ export async function mountHeroGlobe(host, opts = {}) {
     arcs.renderOrder = 3;
     arcs.frustumCulled = false;
     spin.add(arcs);
+    // on phones the text stacks over the globe and the arcs run through it
+    const phone = window.matchMedia('(max-width: 767px)');
+    const syncArcs = () => { arcs.visible = !phone.matches; };
+    syncArcs();
+    phone.addEventListener?.('change', () => { syncArcs(); if (!running) render(); });
 
     // 5. hub glows
     const glowMat = new THREE.ShaderMaterial({
