@@ -226,3 +226,28 @@
     /* inside the mobile sheet the arrow is hidden, so the gutter is dead space */
     .ecosistema-global .tab-panel .view-flex.service-layout { padding-left: 0; }
 }
+
+
+/* --------------------------------------------------------------------------
+   4. Contact form
+   The honeypot has to be reachable by a bot but never by a person, so it is
+   moved off-screen rather than display:none.
+   -------------------------------------------------------------------------- */
+
+.bolt-form__hp {
+    position: absolute !important;
+    left: -9999px;
+    width: 1px; height: 1px;
+    overflow: hidden;
+}
+
+.bolt-form__status {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    min-height: 1.2em;
+}
+.bolt-form__status.is-ok   { color: #1a7f4b; }
+.bolt-form__status.is-fail { color: #c22a2a; }
+
+.bolt-form button[type="submit"][disabled] { opacity: .65; cursor: progress; }

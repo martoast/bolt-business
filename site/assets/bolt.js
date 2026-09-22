@@ -252,10 +252,82 @@
         window.boltSetLanguage = apply;   // handy from the console
     }
 
+
+    /* ----------------------------------------------------------------------
+       Contact form
+
+       Netlify collects the submission; this just posts it in the background so
+       the visitor stays on the page and gets an answer, instead of Netlify's
+       generic success page. Messages follow whichever language is showing.
+       ---------------------------------------------------------------------- */
+    function initContactForm() {
+        var form = document.querySelector('form.bolt-form');
+        if (!form) return;
+        var status = form.querySelector('.bolt-form__status');
+        var button = form.querySelector('button[type="submit"]');
+        var label  = button && button.querySelector('.elementor-button-text');
+        var sending = false;
+
+        var COPY = {
+            es: {
+                sending: 'Enviando…',
+                ok: 'Gracias, recibimos tus datos. Un integrante del equipo te contactará a la brevedad.',
+                fail: 'No pudimos enviar el formulario. Escríbenos a contact@bolt.business y con gusto te atendemos.'
+            },
+            en: {
+                sending: 'Sending…',
+                ok: 'Thank you — we have your details. A member of the team will be in touch shortly.',
+                fail: 'We could not send the form. Please email contact@bolt.business and we will pick it up from there.'
+            }
+        };
+
+        function copy() {
+            return COPY[document.documentElement.getAttribute('data-bolt-lang') === 'en' ? 'en' : 'es'];
+        }
+
+        function say(message, kind) {
+            if (!status) return;
+            status.textContent = message;
+            status.className = 'bolt-form__status is-' + kind;
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (sending) return;
+            if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
+
+            sending = true;
+            var original = label && label.textContent;
+            if (label) label.textContent = copy().sending;
+            if (button) button.disabled = true;
+            say('', 'pending');
+
+            fetch(form.getAttribute('action') || window.location.pathname, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(new FormData(form)).toString()
+            })
+            .then(function (res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                form.reset();
+                say(copy().ok, 'ok');
+            })
+            .catch(function () {
+                say(copy().fail, 'fail');
+            })
+            .then(function () {
+                sending = false;
+                if (button) button.disabled = false;
+                if (label && original) label.textContent = original;
+            });
+        });
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () { initEcosistemaSheet(); initLanguage(); });
+        document.addEventListener('DOMContentLoaded', function () { initEcosistemaSheet(); initLanguage(); initContactForm(); });
     } else {
         initEcosistemaSheet();
         initLanguage();
+        initContactForm();
     }
 })();

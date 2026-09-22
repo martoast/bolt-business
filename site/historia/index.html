@@ -438,34 +438,34 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				<div class="elementor-element elementor-element-d34efba elementor-widget elementor-widget-heading" data-id="d34efba" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
 					<h2 class="elementor-heading-title elementor-size-default">El primer paso está aquí</h2>				</div>
 				<div class="elementor-element elementor-element-fbe9561 elementor-button-align-center elementor-widget elementor-widget-form" data-id="fbe9561" data-element_type="widget" data-e-type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}" data-widget_type="form.default">
-							<form class="elementor-form" method="post" name="New Form" aria-label="New Form">
-			<input type="hidden" name="post_id" value="11"/>
-			<input type="hidden" name="form_id" value="fbe9561"/>
-			<input type="hidden" name="referer_title" value="Historia" />
-
-							<input type="hidden" name="queried_id" value="11"/>
+							<form class="elementor-form bolt-form" method="POST" name="contacto" data-netlify="true" data-netlify-honeypot="bot-field" aria-label="Formulario de contacto">
 			
-			<div class="elementor-form-fields-wrapper elementor-labels-above">
+			
+			
+
+							
+			
+			<input type="hidden" name="form-name" value="contacto"><input type="hidden" name="pagina" value="historia"><p class="bolt-form__hp"><label>No llenar: <input name="bot-field"></label></p><div class="elementor-form-fields-wrapper elementor-labels-above">
 								<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-name elementor-col-100 elementor-field-required">
 												<label for="form-field-name" class="elementor-field-label">
 								Nombre							</label>
-														<input size="1" type="text" name="form_fields[name]" id="form-field-name" class="elementor-field elementor-size-sm  elementor-field-textual" required="required">
+														<input size="1" type="text" name="nombre" id="form-field-name" class="elementor-field elementor-size-sm  elementor-field-textual" required="required">
 											</div>
 								<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-field_d06d6cf elementor-col-100 elementor-field-required">
 												<label for="form-field-field_d06d6cf" class="elementor-field-label">
 								Apellido							</label>
-														<input size="1" type="text" name="form_fields[field_d06d6cf]" id="form-field-field_d06d6cf" class="elementor-field elementor-size-sm  elementor-field-textual" required="required">
+														<input size="1" type="text" name="apellido" id="form-field-field_d06d6cf" class="elementor-field elementor-size-sm  elementor-field-textual" required="required">
 											</div>
 								<div class="elementor-field-type-tel elementor-field-group elementor-column elementor-field-group-field_a809ed9 elementor-col-100 elementor-field-required">
 												<label for="form-field-field_a809ed9" class="elementor-field-label">
 								Teléfono							</label>
-								<input size="1" type="tel" name="form_fields[field_a809ed9]" id="form-field-field_a809ed9" class="elementor-field elementor-size-sm  elementor-field-textual" required="required" pattern="[0-9()#&amp;+*-=.]+" title="Only numbers and phone characters (#, -, *, etc) are accepted.">
+								<input size="1" type="tel" name="telefono" id="form-field-field_a809ed9" class="elementor-field elementor-size-sm  elementor-field-textual" required="required" pattern="[0-9()#&amp;+*-=.]+" title="Only numbers and phone characters (#, -, *, etc) are accepted.">
 
 						</div>
 								<div class="elementor-field-type-email elementor-field-group elementor-column elementor-field-group-email elementor-col-100 elementor-field-required">
 												<label for="form-field-email" class="elementor-field-label">
 								Correo electrónico							</label>
-														<input size="1" type="email" name="form_fields[email]" id="form-field-email" class="elementor-field elementor-size-sm  elementor-field-textual" required="required">
+														<input size="1" type="email" name="email" id="form-field-email" class="elementor-field elementor-size-sm  elementor-field-textual" required="required">
 											</div>
 								<div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
 					<button class="elementor-button elementor-size-sm" type="submit">
@@ -475,7 +475,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 					</button>
 				</div>
 			</div>
-		</form>
+		<div class="bolt-form__status" role="status" aria-live="polite"></div></form>
 						</div>
 				<div class="elementor-element elementor-element-be57c2d elementor-widget elementor-widget-text-editor" data-id="be57c2d" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
 									<p>Déjanos tus datos y conversemos sobre cómo podemos acompañar el crecimiento de tu proyecto.</p>								</div>
